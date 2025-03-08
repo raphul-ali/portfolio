@@ -60,7 +60,7 @@ const Hero = () => {
               mb: 4,
             }}
           >
-            I build things for the web.
+            Full Stack Developer
           </Typography>
         </motion.div>
 
@@ -77,8 +77,8 @@ const Hero = () => {
               maxWidth: '600px',
             }}
           >
-            I'm a software developer with an MCA degree, specializing in building exceptional digital experiences.
-            Currently, I'm focused on building accessible, human-centered products.
+            I'm a Full Stack Developer with 2 years of experience building robust web and mobile applications. 
+            Specializing in React.js, React Native, and AWS cloud services, I create scalable solutions that deliver exceptional user experiences.
           </Typography>
         </motion.div>
 

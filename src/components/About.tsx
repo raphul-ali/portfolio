@@ -53,7 +53,7 @@ const About = () => {
                   mb: 2,
                 }}
               >
-                Hello! I'm Raphul, a passionate software developer with a Master's in Computer Applications (MCA) completed in November 2022. I enjoy creating things that live on the internet, whether that be websites, applications, or anything in between.
+                Hello! I'm Raphul, a dedicated Full Stack Developer with 2 years of experience in building robust web and mobile applications. With an MCA degree completed in November 2022, I combine strong academic foundations with practical industry experience.
               </Typography>
 
               <Typography
@@ -63,7 +63,17 @@ const About = () => {
                   mb: 2,
                 }}
               >
-                My interest in web development started during my undergraduate studies, where I discovered the power of creating interactive and user-friendly interfaces. Since completing my MCA, I've been focused on building professional web applications and expanding my skillset.
+                I recently led the development of "Vahan," a ride-hailing mobile application built with React Native and powered by AWS cloud services. This project showcases my ability to implement complex, production-ready applications using modern technologies like GraphQL, AWS Lambda, and DynamoDB to create scalable backend solutions.
+              </Typography>
+
+              <Typography
+                variant="body1"
+                sx={{
+                  color: '#8892b0',
+                  mb: 2,
+                }}
+              >
+                My expertise spans both front-end and back-end development, with a particular focus on creating seamless user experiences while ensuring robust backend functionality. I'm passionate about leveraging modern technologies to build scalable, efficient solutions that meet business objectives.
               </Typography>
 
               <Typography
@@ -73,11 +83,20 @@ const About = () => {
                   mb: 4,
                 }}
               >
-                Here are a few technologies I've been working with recently:
+                Core technologies I work with:
               </Typography>
 
               <Grid container spacing={2}>
-                {['JavaScript', 'React', 'HTML & CSS', 'PHP', 'C++', 'TypeScript'].map((skill) => (
+                {[
+                  'React.js',
+                  'React Native',
+                  'AWS Amplify',
+                  'GraphQL',
+                  'PHP',
+                  'MySQL',
+                  'DynamoDB',
+                  'JavaScript',
+                ].map((skill) => (
                   <Grid item xs={6} key={skill}>
                     <Paper
                       elevation={0}
