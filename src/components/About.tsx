@@ -53,7 +53,7 @@ const About = () => {
                   mb: 2,
                 }}
               >
-                Hello! I'm Raphul, a passionate software developer and MCA student. I enjoy creating things that live on the internet, whether that be websites, applications, or anything in between.
+                Hello! I'm Raphul, a passionate software developer with a Master's in Computer Applications (MCA) completed in November 2022. I enjoy creating things that live on the internet, whether that be websites, applications, or anything in between.
               </Typography>
 
               <Typography
@@ -63,7 +63,7 @@ const About = () => {
                   mb: 2,
                 }}
               >
-                My interest in web development started during my undergraduate studies, where I discovered the power of creating interactive and user-friendly interfaces.
+                My interest in web development started during my undergraduate studies, where I discovered the power of creating interactive and user-friendly interfaces. Since completing my MCA, I've been focused on building professional web applications and expanding my skillset.
               </Typography>
 
               <Typography

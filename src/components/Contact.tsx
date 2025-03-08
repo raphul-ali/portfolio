@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import EmailIcon from '@mui/icons-material/Email';
+import PhoneIcon from '@mui/icons-material/Phone';
 
 const Contact = () => {
   return (
@@ -93,7 +94,7 @@ const Contact = () => {
             </Grid>
             <Grid item>
               <IconButton
-                href="mailto:your.email@example.com"
+                href="mailto:raphulali@gmail.com"
                 sx={{
                   color: '#8892b0',
                   '&:hover': {
@@ -105,6 +106,20 @@ const Contact = () => {
                 <EmailIcon fontSize="large" />
               </IconButton>
             </Grid>
+            <Grid item>
+              <IconButton
+                href="tel:+919365158854"
+                sx={{
+                  color: '#8892b0',
+                  '&:hover': {
+                    color: (theme) => theme.palette.primary.main,
+                  },
+                }}
+                size="large"
+              >
+                <PhoneIcon fontSize="large" />
+              </IconButton>
+            </Grid>
           </Grid>
         </motion.div>
 
@@ -113,22 +128,51 @@ const Contact = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.3 }}
-          style={{ textAlign: 'center' }}
         >
-          <Button
-            variant="outlined"
-            color="primary"
-            href="mailto:your.email@example.com"
-            size="large"
+          <Box
             sx={{
-              borderWidth: '2px',
-              '&:hover': {
-                borderWidth: '2px',
-              },
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: 2,
             }}
           >
-            Say Hello
-          </Button>
+            <Typography
+              variant="body1"
+              sx={{
+                color: '#8892b0',
+                textAlign: 'center',
+              }}
+            >
+              <EmailIcon sx={{ mr: 1, verticalAlign: 'middle' }} />
+              raphulali@gmail.com
+            </Typography>
+            <Typography
+              variant="body1"
+              sx={{
+                color: '#8892b0',
+                textAlign: 'center',
+              }}
+            >
+              <PhoneIcon sx={{ mr: 1, verticalAlign: 'middle' }} />
+              +91 9365158854
+            </Typography>
+            <Button
+              variant="outlined"
+              color="primary"
+              href="mailto:raphulali@gmail.com"
+              size="large"
+              sx={{
+                borderWidth: '2px',
+                mt: 2,
+                '&:hover': {
+                  borderWidth: '2px',
+                },
+              }}
+            >
+              Say Hello
+            </Button>
+          </Box>
         </motion.div>
       </Container>
     </Box>

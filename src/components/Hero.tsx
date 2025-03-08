@@ -77,7 +77,7 @@ const Hero = () => {
               maxWidth: '600px',
             }}
           >
-            I'm a MCA student and a software developer specializing in building exceptional digital experiences.
+            I'm a software developer with an MCA degree, specializing in building exceptional digital experiences.
             Currently, I'm focused on building accessible, human-centered products.
           </Typography>
         </motion.div>
