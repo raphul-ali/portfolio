@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=SF+Pro+Display:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 * {
   margin: 0;
@@ -7,54 +7,104 @@
 }
 
 :root {
-  --gradient-1: linear-gradient(45deg, #F81CE5, #7928CA);
-  --gradient-2: linear-gradient(45deg, #7928CA, #FF0080);
-  --neon-shadow: 0 0 20px rgba(248, 28, 229, 0.3);
-  --glass-bg: rgba(17, 17, 17, 0.8);
-  --glass-border: 1px solid rgba(255, 255, 255, 0.1);
+  --primary: #2563eb;
+  --primary-dark: #1d4ed8;
+  --secondary: #475569;
+  --text-primary: #1e293b;
+  --text-secondary: #475569;
+  --background: #ffffff;
+  --background-alt: #f8fafc;
+  --border-color: #e2e8f0;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 
 html {
   scroll-behavior: smooth;
-  background-color: #000000;
+  background-color: var(--background);
 }
 
 body {
   margin: 0;
-  font-family: 'SF Pro Display', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
-  background: radial-gradient(circle at top right, rgba(248, 28, 229, 0.15), transparent 50%),
-             radial-gradient(circle at bottom left, rgba(121, 40, 202, 0.15), transparent 50%);
+  color: var(--text-primary);
+  line-height: 1.5;
 }
 
-/* Glass morphism effect */
-.glass {
-  background: var(--glass-bg);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: var(--glass-border);
+/* Section styles */
+.section {
+  padding: 5rem 0;
+  background-color: var(--background);
 }
 
-/* Gradient text */
-.gradient-text {
-  background: var(--gradient-1);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+.section-alt {
+  background-color: var(--background-alt);
 }
 
-/* Neon effect */
-.neon {
-  box-shadow: var(--neon-shadow);
+/* Container styles */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* Card styles */
+.card {
+  background-color: var(--background);
+  border-radius: 8px;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Button styles */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.button-primary {
+  background-color: var(--primary);
+  color: white;
+}
+
+.button-primary:hover {
+  background-color: var(--primary-dark);
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
+p {
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
 }
 
 /* Mobile-first responsive design */
 @media screen and (max-width: 600px) {
   html {
     font-size: 14px;
+  }
+  
+  .section {
+    padding: 3rem 0;
   }
 }
 
@@ -87,16 +137,9 @@ html {
   }
 }
 
-/* Container styles */
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 1.5rem;
-}
-
-/* Improved focus styles */
+/* Focus styles */
 :focus {
-  outline: 2px solid #F81CE5;
+  outline: 2px solid var(--primary);
   outline-offset: 2px;
 }
 
@@ -104,14 +147,23 @@ html {
   outline: none;
 }
 
-/* Better text selection */
+/* Selection styles */
 ::selection {
-  background-color: #F81CE5;
-  color: #FFFFFF;
+  background-color: var(--primary);
+  color: white;
 }
 
 /* Animations */
-@keyframes fadeUp {
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
   from {
     opacity: 0;
     transform: translateY(20px);
@@ -122,44 +174,60 @@ html {
   }
 }
 
-@keyframes gradientShift {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
+.animate-fadeIn {
+  animation: fadeIn 0.5s ease-out forwards;
 }
 
-.animate-fadeUp {
-  animation: fadeUp 0.5s ease-out forwards;
-}
-
-.gradient-bg {
-  background: var(--gradient-1);
-  background-size: 200% 200%;
-  animation: gradientShift 5s ease infinite;
+.animate-slideUp {
+  animation: slideUp 0.5s ease-out forwards;
 }
 
 /* Scrollbar styling */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #111111;
+  background: var(--background-alt);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--gradient-1);
-  border-radius: 5px;
+  background: var(--secondary);
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--gradient-2);
+  background: var(--text-secondary);
+}
+
+/* Utility classes */
+.text-primary {
+  color: var(--primary);
+}
+
+.text-secondary {
+  color: var(--secondary);
+}
+
+.bg-primary {
+  background-color: var(--primary);
+  color: white;
+}
+
+.bg-alt {
+  background-color: var(--background-alt);
+}
+
+.shadow-sm {
+  box-shadow: var(--shadow-sm);
+}
+
+.shadow-md {
+  box-shadow: var(--shadow-md);
+}
+
+.shadow-lg {
+  box-shadow: var(--shadow-lg);
 }
 
 /* Disable transitions for users who prefer reduced motion */
@@ -168,36 +236,5 @@ html {
     animation: none !important;
     transition: none !important;
     scroll-behavior: auto !important;
-  }
-}
-
-/* Loading state */
-.loading {
-  position: relative;
-  overflow: hidden;
-}
-
-.loading::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(248, 28, 229, 0.2),
-    transparent
-  );
-  animation: loading 1.5s infinite;
-}
-
-@keyframes loading {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(100%);
   }
 }
