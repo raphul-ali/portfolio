@@ -1,13 +1,94 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* Mobile-first responsive design */
+@media screen and (max-width: 600px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+/* Tablet */
+@media screen and (min-width: 601px) and (max-width: 960px) {
+  html {
+    font-size: 15px;
+  }
+}
+
+/* Desktop */
+@media screen and (min-width: 961px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+/* Smooth scrolling for anchor links */
+html {
+  scroll-padding-top: 80px; /* Height of fixed header */
+}
+
+/* Better touch targets for mobile */
+@media (hover: none) and (pointer: coarse) {
+  button, 
+  [role="button"],
+  a {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* Prevent overflow issues */
+.container {
+  overflow-x: hidden;
+  width: 100%;
+}
+
+/* Improved focus styles */
+:focus {
+  outline: 2px solid #00D8FF;
+  outline-offset: 2px;
+}
+
+/* Remove focus outline for mouse users */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Better text selection */
+::selection {
+  background-color: #00D8FF;
+  color: #0A1930;
+}
+
+/* Smooth transitions */
+* {
+  transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+/* Disable transitions for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+    scroll-behavior: auto !important;
+  }
 }
