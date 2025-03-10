@@ -42,6 +42,7 @@ import {
   SiRedux,
   SiFirebase
 } from 'react-icons/si';
+import Navigation from './components/Navigation';
 
 interface SkillProps {
   name: string;
@@ -75,13 +76,13 @@ interface SkillCategory {
   skills: SkillProps[];
 }
 
-function App() {
+const App: React.FC = () => {
   const [theme, setTheme] = useState<'light' | 'dark'>('dark');
   const [animationData, setAnimationData] = useState(null);
   const [currentProfession, setCurrentProfession] = useState(0);
   const [isRemoving, setIsRemoving] = useState(false);
   const [isIntroComplete, setIsIntroComplete] = useState(false);
-  const [activeSection, setActiveSection] = useState('about');
+  const [activeSection, setActiveSection] = useState('About');
   const [powerButtonText, setPowerButtonText] = useState('Power On');
   const [themeButtonText, setThemeButtonText] = useState('Light Mode');
 
@@ -92,15 +93,7 @@ function App() {
     "ReactJS Developer"
   ];
 
-  const sections = [
-    { id: 'about', label: 'About' },
-    { id: 'skills', label: 'Skills' },
-    { id: 'experience', label: 'Experience' },
-    { id: 'projects', label: 'Projects' },
-    { id: 'education', label: 'Education' },
-    { id: 'languages', label: 'Languages' },
-    { id: 'interests', label: 'Interests' }
-  ];
+  const sections = ['About', 'Experience', 'Projects', 'Skills', 'Interests'];
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
@@ -218,15 +211,15 @@ function App() {
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY + 100;
-      sections.forEach(({ id }) => {
-        const element = document.getElementById(id);
+      sections.forEach((section) => {
+        const element = document.getElementById(section.toLowerCase());
         if (element) {
           const { offsetTop, offsetHeight } = element;
           if (
             scrollPosition >= offsetTop &&
             scrollPosition < offsetTop + offsetHeight
           ) {
-            setActiveSection(id);
+            setActiveSection(section);
           }
         }
       });
@@ -234,7 +227,7 @@ function App() {
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [sections]);
 
   if (!isIntroComplete) {
     return (
@@ -273,7 +266,12 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen">
+    <div className="app">
+      <Navigation 
+        sections={sections}
+        activeSection={activeSection}
+        onSectionChange={setActiveSection}
+      />
       {/* Background Animation */}
       <div className="background-animation">
         <Lottie
@@ -287,13 +285,13 @@ function App() {
       {/* Navigation Bar */}
       <nav className="nav-bar">
         <div className="nav-items">
-          {sections.map(({ id, label }) => (
+          {sections.map((section) => (
             <button
-              key={id}
-              className={`nav-item ${activeSection === id ? 'active' : ''}`}
-              onClick={() => scrollToSection(id)}
+              key={section}
+              className={`nav-item ${activeSection === section ? 'active' : ''}`}
+              onClick={() => scrollToSection(section.toLowerCase())}
             >
-              {label}
+              {section}
             </button>
           ))}
         </div>
@@ -596,6 +594,6 @@ function App() {
       </Container>
     </div>
   );
-}
+};
 
 export default App;
