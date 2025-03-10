@@ -250,7 +250,7 @@ function App() {
         </div>
         <div className="intro-content">
           <div className="profile-image intro-image">
-            <img src="/profile_pic.png" alt="Raphul Ali" />
+            <img src={`${process.env.PUBLIC_URL}/profile_pic.png`} alt="Raphul Ali" />
           </div>
           <h1 className="intro-name">Raphul Ali<span className="terminal-cursor"></span></h1>
           <p className="intro-title">{professions[currentProfession]}</p>
@@ -306,14 +306,14 @@ function App() {
         </div>
       </nav>
 
-      <Container maxWidth="lg" sx={{ py: 4 }}>
-        <Grid container spacing={2}>
+      <Container maxWidth="lg" sx={{ py: 4, px: { xs: 2, sm: 3, md: 4 } }}>
+        <Grid container spacing={{ xs: 2, md: 3 }}>
           {/* Profile Section */}
           <Grid item xs={12} md={4}>
             <div className="profile-section">
               <div className="profile-image">
                 <img 
-                  src="/profile_pic.png" 
+                  src={`${process.env.PUBLIC_URL}/profile_pic.png`} 
                   alt="Raphul Ali"
                 />
               </div>
@@ -341,6 +341,22 @@ function App() {
                   <LocationOnIcon /> 
                   <span>Rupai siding, Tinsukia, Assam</span>
                 </div>
+              </div>
+
+              <div className="profile-buttons">
+                <a 
+                  href={`${process.env.PUBLIC_URL}/Raphul_Ali_CV.pdf`} 
+                  download 
+                  className="profile-button primary"
+                >
+                  <DownloadOutlinedIcon /> Download CV
+                </a>
+                <a 
+                  href="mailto:raphulali@gmail.com?subject=Hi Raphul!"
+                  className="profile-button secondary"
+                >
+                  <EmailIcon /> Say Hi!
+                </a>
               </div>
 
               <div className="social-links">
@@ -405,7 +421,7 @@ function App() {
                           <div className="flex flex-wrap gap-3">
                             {category.skills.map((skill, skillIndex) => (
                               <div key={skillIndex} className={`skill-tag ${skill.className}`}>
-                                <img src={skill.icon} alt={skill.name} />
+                                <img src={`${process.env.PUBLIC_URL}/${skill.icon}`} alt={skill.name} />
                                 {skill.name}
                               </div>
                             ))}
@@ -496,7 +512,7 @@ function App() {
                     <div className="project-tech-stack">
                       {project.tech.map((tech, i) => (
                         <div key={i} className="project-tech-tag">
-                          <img src={tech.icon} alt={tech.name} />
+                          <img src={`${process.env.PUBLIC_URL}/${tech.icon}`} alt={tech.name} />
                           {tech.name}
                         </div>
                       ))}
