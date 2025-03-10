@@ -11,16 +11,8 @@ import DarkModeIcon from '@mui/icons-material/DarkMode';
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 import DownloadOutlinedIcon from '@mui/icons-material/DownloadOutlined';
 import { IconContext } from 'react-icons';
-import * as Fa from 'react-icons/fa';
-import * as Si from 'react-icons/si';
 import { 
-  FaReact, 
-  FaNodeJs, 
-  FaPhp, 
-  FaHtml5, 
-  FaAws, 
   FaMobile,
-  FaDatabase,
   FaCode,
   FaServer,
   FaCloud,
@@ -30,18 +22,6 @@ import {
   FaChess,
   FaLanguage
 } from 'react-icons/fa';
-import {
-  SiJavascript,
-  SiTypescript,
-  SiMysql,
-  SiGraphql,
-  SiAwsamplify,
-  SiAwslambda,
-  SiMui,
-  SiTailwindcss,
-  SiRedux,
-  SiFirebase
-} from 'react-icons/si';
 
 interface SkillProps {
   name: string;
@@ -82,7 +62,6 @@ function App() {
   const [isRemoving, setIsRemoving] = useState(false);
   const [isIntroComplete, setIsIntroComplete] = useState(false);
   const [activeSection, setActiveSection] = useState('about');
-  const [powerButtonText, setPowerButtonText] = useState('Power On');
   const [themeButtonText, setThemeButtonText] = useState('Light Mode');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -113,13 +92,13 @@ function App() {
         setTimeout(() => {
           setIsRemoving(false);
           setCurrentProfession((prev) => (prev + 1) % professions.length);
-        }, 600); // Wait for removal animation to complete
+        }, 600);
       } else {
         setTimeout(() => {
           setIsRemoving(true);
-        }, 2000); // Show text for 2 seconds
+        }, 2000);
       }
-    }, 3000); // Total duration for each profession
+    }, 3000);
 
     return () => clearInterval(typingInterval);
   }, [isRemoving, professions.length]);
@@ -130,19 +109,6 @@ function App() {
       .then(data => setAnimationData(data))
       .catch(error => console.error('Error loading animation:', error));
   }, []);
-
-  useEffect(() => {
-    const textInterval = setInterval(() => {
-      setPowerButtonText(prev => prev === 'Power On' ? 'View Portfolio' : 'Power On');
-    }, 2000); // Switch every 2 seconds
-
-    return () => clearInterval(textInterval);
-  }, []);
-
-  const iconComponents = {
-    fa: Fa,
-    si: Si
-  };
 
   const skillCategories: SkillCategory[] = [
     {
@@ -195,11 +161,6 @@ function App() {
     }
   ];
 
-  const getIcon = (iconName: string, iconSet: 'fa' | 'si'): IconComponent | undefined => {
-    const iconSet_ = iconComponents[iconSet];
-    return iconSet_[iconName as keyof typeof iconSet_] as IconComponent;
-  };
-
   const toggleTheme = () => {
     setTheme(prev => {
       const newTheme = prev === 'light' ? 'dark' : 'light';
@@ -235,7 +196,20 @@ function App() {
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [sections]);
+
+  // Add click outside handler
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+      if (isMenuOpen && !target.closest('.nav-bar')) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [isMenuOpen]);
 
   if (!isIntroComplete) {
     return (
@@ -274,24 +248,27 @@ function App() {
       
       {/* Navigation Bar */}
       <nav className="nav-bar">
-        <div className="hamburger-menu" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+        <div 
+          className={`hamburger-menu ${isMenuOpen ? 'active' : ''}`} 
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+        >
           <div className="hamburger-line"></div>
           <div className="hamburger-line"></div>
           <div className="hamburger-line"></div>
         </div>
         <div className={`nav-items ${isMenuOpen ? 'show' : ''}`}>
-        {sections.map(({ id, label }) => (
-          <button
-            key={id}
-            className={`nav-item ${activeSection === id ? 'active' : ''}`}
+          {sections.map(({ id, label }) => (
+            <button
+              key={id}
+              className={`nav-item ${activeSection === id ? 'active' : ''}`}
               onClick={() => {
                 scrollToSection(id);
                 setIsMenuOpen(false);
               }}
-          >
-            {label}
-          </button>
-        ))}
+            >
+              {label}
+            </button>
+          ))}
         </div>
         
         <div className="nav-actions">
