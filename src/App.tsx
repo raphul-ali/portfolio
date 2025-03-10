@@ -61,10 +61,10 @@ function App() {
   const [currentProfession, setCurrentProfession] = useState(0);
   const [isRemoving, setIsRemoving] = useState(false);
   const [isIntroComplete, setIsIntroComplete] = useState(false);
+  const [isExiting, setIsExiting] = useState(false);
   const [activeSection, setActiveSection] = useState('about');
   const [themeButtonText, setThemeButtonText] = useState('Light Mode');
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [isIntroExiting, setIsIntroExiting] = useState(false);
 
   const professions = [
     "Full Stack Web Developer",
@@ -199,24 +199,39 @@ function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [sections]);
 
-  const handleIntroComplete = () => {
-    setIsIntroExiting(true);
+  const handleIntroExit = () => {
+    setIsExiting(true);
     setTimeout(() => {
       setIsIntroComplete(true);
-    }, 800); // Match the transition duration in CSS
+    }, 600); // Match the CSS transition duration
+  };
+
+  const toggleDrawer = () => {
+    setIsDrawerOpen(!isDrawerOpen);
+  };
+
+  const closeDrawer = () => {
+    setIsDrawerOpen(false);
+  };
+
+  const handleSectionClick = (section: string) => {
+    setActiveSection(section);
+    closeDrawer();
   };
 
   if (!isIntroComplete) {
     return (
-      <div className={`intro-section ${isIntroExiting ? 'exit' : ''}`}>
-        <h1 className="intro-text">Hi, I am Raphul.</h1>
-        <p className="intro-subtext">Let's see my portfolio.</p>
-        <button 
-          className="intro-button"
-          onClick={handleIntroComplete}
-        >
-          View Portfolio
-        </button>
+      <div className="app">
+        <div className={`intro-section ${isExiting ? 'exit' : ''}`}>
+          <h1 className="intro-text">Hi, I am Raphul.</h1>
+          <p className="intro-subtext">Let's see my portfolio.</p>
+          <button 
+            className="intro-button"
+            onClick={handleIntroExit}
+          >
+            View Portfolio
+          </button>
+        </div>
       </div>
     );
   }
@@ -239,17 +254,70 @@ function App() {
         />
       </div>
       
+      <button 
+        className={`hamburger-button ${isDrawerOpen ? 'active' : ''}`}
+        onClick={toggleDrawer}
+        aria-label="Toggle menu"
+      >
+        <span className="hamburger-line"></span>
+        <span className="hamburger-line"></span>
+        <span className="hamburger-line"></span>
+      </button>
+
+      <div 
+        className={`drawer-overlay ${isDrawerOpen ? 'visible' : ''}`}
+        onClick={closeDrawer}
+      ></div>
+
+      <div className={`mobile-drawer ${isDrawerOpen ? 'open' : ''}`}>
+        <nav className="mobile-nav-items">
+          <button
+            className={`mobile-nav-item ${activeSection === 'about' ? 'active' : ''}`}
+            onClick={() => handleSectionClick('about')}
+          >
+            About
+          </button>
+          <button
+            className={`mobile-nav-item ${activeSection === 'skills' ? 'active' : ''}`}
+            onClick={() => handleSectionClick('skills')}
+          >
+            Skills
+          </button>
+          <button
+            className={`mobile-nav-item ${activeSection === 'experience' ? 'active' : ''}`}
+            onClick={() => handleSectionClick('experience')}
+          >
+            Experience
+          </button>
+          <button
+            className={`mobile-nav-item ${activeSection === 'projects' ? 'active' : ''}`}
+            onClick={() => handleSectionClick('projects')}
+          >
+            Projects
+          </button>
+          <button
+            className={`mobile-nav-item ${activeSection === 'education' ? 'active' : ''}`}
+            onClick={() => handleSectionClick('education')}
+          >
+            Education
+          </button>
+          <button
+            className={`mobile-nav-item ${activeSection === 'interests' ? 'active' : ''}`}
+            onClick={() => handleSectionClick('interests')}
+          >
+            Interests
+          </button>
+          <button
+            className={`mobile-nav-item ${activeSection === 'languages' ? 'active' : ''}`}
+            onClick={() => handleSectionClick('languages')}
+          >
+            Languages
+          </button>
+        </nav>
+      </div>
+
       {/* Navigation Bar */}
       <nav className="nav-bar">
-        <button 
-          className="hamburger-button"
-          onClick={() => setIsDrawerOpen(true)}
-        >
-          <div className="hamburger-line"></div>
-          <div className="hamburger-line"></div>
-          <div className="hamburger-line"></div>
-        </button>
-
         <div className="nav-items">
           {sections.map(({ id, label }) => (
             <button
@@ -269,31 +337,6 @@ function App() {
           </button>
         </div>
       </nav>
-
-      {/* Drawer Menu */}
-      <div className={`drawer-overlay ${isDrawerOpen ? 'open' : ''}`} onClick={() => setIsDrawerOpen(false)} />
-      <div className={`drawer-menu ${isDrawerOpen ? 'open' : ''}`}>
-        <div className="drawer-header">
-          <h2>Menu</h2>
-          <button className="drawer-close" onClick={() => setIsDrawerOpen(false)}>
-            ✕
-          </button>
-        </div>
-        <div className="drawer-nav-items">
-          {sections.map(({ id, label }) => (
-            <button
-              key={id}
-              className={`drawer-nav-item ${activeSection === id ? 'active' : ''}`}
-              onClick={() => {
-                scrollToSection(id);
-                setIsDrawerOpen(false);
-              }}
-            >
-              {label}
-            </button>
-          ))}
-        </div>
-      </div>
 
       <Container maxWidth="lg" sx={{ py: 4, px: { xs: 2, sm: 3, md: 4 } }}>
         <Grid container spacing={{ xs: 2, md: 3 }}>
