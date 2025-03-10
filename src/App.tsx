@@ -63,7 +63,6 @@ function App() {
   const [isIntroComplete, setIsIntroComplete] = useState(false);
   const [activeSection, setActiveSection] = useState('about');
   const [themeButtonText, setThemeButtonText] = useState('Light Mode');
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const professions = [
     "Full Stack Web Developer",
@@ -198,19 +197,6 @@ function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [sections]);
 
-  // Add click outside handler
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      const target = event.target as HTMLElement;
-      if (isMenuOpen && !target.closest('.nav-bar')) {
-        setIsMenuOpen(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [isMenuOpen]);
-
   if (!isIntroComplete) {
     return (
       <div className="app">
@@ -248,23 +234,12 @@ function App() {
       
       {/* Navigation Bar */}
       <nav className="nav-bar">
-        <div 
-          className={`hamburger-menu ${isMenuOpen ? 'active' : ''}`} 
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-        >
-          <div className="hamburger-line"></div>
-          <div className="hamburger-line"></div>
-          <div className="hamburger-line"></div>
-        </div>
-        <div className={`nav-items ${isMenuOpen ? 'show' : ''}`}>
+        <div className="nav-items">
           {sections.map(({ id, label }) => (
             <button
               key={id}
               className={`nav-item ${activeSection === id ? 'active' : ''}`}
-              onClick={() => {
-                scrollToSection(id);
-                setIsMenuOpen(false);
-              }}
+              onClick={() => scrollToSection(id)}
             >
               {label}
             </button>
