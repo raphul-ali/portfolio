@@ -42,7 +42,6 @@ import {
   SiRedux,
   SiFirebase
 } from 'react-icons/si';
-import Navigation from './components/Navigation';
 
 interface SkillProps {
   name: string;
@@ -76,15 +75,16 @@ interface SkillCategory {
   skills: SkillProps[];
 }
 
-const App: React.FC = () => {
+function App() {
   const [theme, setTheme] = useState<'light' | 'dark'>('dark');
   const [animationData, setAnimationData] = useState(null);
   const [currentProfession, setCurrentProfession] = useState(0);
   const [isRemoving, setIsRemoving] = useState(false);
   const [isIntroComplete, setIsIntroComplete] = useState(false);
-  const [activeSection, setActiveSection] = useState('About');
+  const [activeSection, setActiveSection] = useState('about');
   const [powerButtonText, setPowerButtonText] = useState('Power On');
   const [themeButtonText, setThemeButtonText] = useState('Light Mode');
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const professions = [
     "Full Stack Web Developer",
@@ -93,7 +93,15 @@ const App: React.FC = () => {
     "ReactJS Developer"
   ];
 
-  const sections = ['About', 'Experience', 'Projects', 'Skills', 'Interests'];
+  const sections = [
+    { id: 'about', label: 'About' },
+    { id: 'skills', label: 'Skills' },
+    { id: 'experience', label: 'Experience' },
+    { id: 'projects', label: 'Projects' },
+    { id: 'education', label: 'Education' },
+    { id: 'languages', label: 'Languages' },
+    { id: 'interests', label: 'Interests' }
+  ];
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
@@ -211,15 +219,15 @@ const App: React.FC = () => {
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY + 100;
-      sections.forEach((section) => {
-        const element = document.getElementById(section.toLowerCase());
+      sections.forEach(({ id }) => {
+        const element = document.getElementById(id);
         if (element) {
           const { offsetTop, offsetHeight } = element;
           if (
             scrollPosition >= offsetTop &&
             scrollPosition < offsetTop + offsetHeight
           ) {
-            setActiveSection(section);
+            setActiveSection(id);
           }
         }
       });
@@ -227,38 +235,19 @@ const App: React.FC = () => {
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [sections]);
+  }, []);
 
   if (!isIntroComplete) {
     return (
-      <div className="intro-screen">
-        <div className="startup-screen">
-          <div className="boot-text">System Initialization...</div>
-          <div className="boot-text">Loading Portfolio Components...</div>
-          <div className="boot-text">Configuring Display Settings...</div>
-          <div className="boot-text">Establishing Connection...</div>
-          <div className="boot-text">Ready To Launch</div>
-          <div className="screen-flicker"></div>
-          <div className="scan-line"></div>
-        </div>
-        <div className="intro-content">
-          <div className="profile-image intro-image">
-            <img src={`${process.env.PUBLIC_URL}/profile_pic.png`} alt="Raphul Ali" />
-          </div>
-          <h1 className="intro-name">Raphul Ali<span className="terminal-cursor"></span></h1>
-          <p className="intro-title">{professions[currentProfession]}</p>
+      <div className="app">
+        <div className="intro-section">
+          <h1 className="intro-text">Hi, I am Raphul.</h1>
+          <p className="intro-subtext">Let's see my portfolio.</p>
           <button 
-            className="intro-cta power-button"
-            onClick={() => {
-              const introScreen = document.querySelector('.intro-screen');
-              const button = document.querySelector('.power-button');
-              button?.classList.add('powering-down');
-              introScreen?.classList.add('power-off');
-              setTimeout(() => setIsIntroComplete(true), 1500);
-            }}
+            className="intro-button"
+            onClick={() => setIsIntroComplete(true)}
           >
-            <PowerSettingsNewIcon className="power-icon" />
-            <span>{powerButtonText}</span>
+            View Portfolio
           </button>
         </div>
       </div>
@@ -266,34 +255,43 @@ const App: React.FC = () => {
   }
 
   return (
-    <div className="app">
-      <Navigation 
-        sections={sections}
-        activeSection={activeSection}
-        onSectionChange={setActiveSection}
-      />
+    <div className="min-h-screen">
       {/* Background Animation */}
       <div className="background-animation">
         <Lottie
           animationData={animationData}
           loop={true}
           autoplay={true}
-          style={{ width: '100%', height: '100%' }}
+          style={{
+            width: '100%',
+            height: '100%',
+            position: 'absolute',
+            top: 0,
+            left: 0
+          }}
         />
       </div>
       
       {/* Navigation Bar */}
       <nav className="nav-bar">
-        <div className="nav-items">
-          {sections.map((section) => (
-            <button
-              key={section}
-              className={`nav-item ${activeSection === section ? 'active' : ''}`}
-              onClick={() => scrollToSection(section.toLowerCase())}
-            >
-              {section}
-            </button>
-          ))}
+        <div className="hamburger-menu" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+          <div className="hamburger-line"></div>
+          <div className="hamburger-line"></div>
+          <div className="hamburger-line"></div>
+        </div>
+        <div className={`nav-items ${isMenuOpen ? 'show' : ''}`}>
+        {sections.map(({ id, label }) => (
+          <button
+            key={id}
+            className={`nav-item ${activeSection === id ? 'active' : ''}`}
+              onClick={() => {
+                scrollToSection(id);
+                setIsMenuOpen(false);
+              }}
+          >
+            {label}
+          </button>
+        ))}
         </div>
         
         <div className="nav-actions">
@@ -373,13 +371,25 @@ const App: React.FC = () => {
                   <GitHubIcon /> GitHub
                 </a>
               </div>
+
+              <button 
+                className="see-work-button"
+                onClick={() => scrollToSection('skills')}
+              >
+                See my work
+                <span className="chevrons">
+                  <span className="chevron"></span>
+                  <span className="chevron"></span>
+                  <span className="chevron"></span>
+                </span>
+              </button>
             </div>
           </Grid>
 
           {/* Main Content */}
           <Grid item xs={12} md={8} className="main-content">
             {/* About Section */}
-            <section id="about" className="mb-8 section-about">
+            <section id="about" className={`section section-about ${activeSection === 'about' ? 'active' : ''}`}>
               <h2 className="section-title">About Me</h2>
               <div className="card">
                 <Typography variant="body1" className="space-y-4">
@@ -400,7 +410,7 @@ const App: React.FC = () => {
             </section>
 
             {/* Skills Section */}
-            <section id="skills" className="mb-8 section-skills">
+            <section id="skills" className={`section section-skills ${activeSection === 'skills' ? 'active' : ''}`}>
               <h2 className="section-title">What I'm Doing</h2>
               <div className="skills-grid">
                 {skillCategories.map((category, index) => {
@@ -433,7 +443,7 @@ const App: React.FC = () => {
             </section>
 
             {/* Experience Section */}
-            <section id="experience" className="mb-8 section-experience">
+            <section id="experience" className={`section section-experience ${activeSection === 'experience' ? 'active' : ''}`}>
               <h2 className="section-title">Experience</h2>
               <Grid container spacing={3}>
                 <Grid item xs={12}>
@@ -469,7 +479,7 @@ const App: React.FC = () => {
             </section>
 
             {/* Projects Section */}
-            <section id="projects" className="mb-8 section-projects">
+            <section id="projects" className={`section section-projects ${activeSection === 'projects' ? 'active' : ''}`}>
               <h2 className="section-title">Projects</h2>
               <div className="project-grid">
                 {([
@@ -505,23 +515,23 @@ const App: React.FC = () => {
                         <project.icon />
                       </IconContext.Provider>
                     </div>
-                    <h3 className="text-xl font-bold mb-3">{project.title}</h3>
-                    <p style={{ color: 'var(--text-secondary)' }} className="mb-4">{project.description}</p>
+                      <h3 className="text-xl font-bold mb-3">{project.title}</h3>
+                      <p style={{ color: 'var(--text-secondary)' }} className="mb-4">{project.description}</p>
                     <div className="project-tech-stack">
-                      {project.tech.map((tech, i) => (
+                        {project.tech.map((tech, i) => (
                         <div key={i} className="project-tech-tag">
                           <img src={`${process.env.PUBLIC_URL}/${tech.icon}`} alt={tech.name} />
                           {tech.name}
                         </div>
-                      ))}
+                        ))}
+                      </div>
                     </div>
-                  </div>
                 ))}
               </div>
             </section>
 
             {/* Education Section */}
-            <section id="education" className="mb-8 section-education">
+            <section id="education" className={`section section-education ${activeSection === 'education' ? 'active' : ''}`}>
               <h2 className="section-title">Education</h2>
               <Grid container spacing={3}>
                 <Grid item xs={12} md={6}>
@@ -541,7 +551,7 @@ const App: React.FC = () => {
             </section>
 
             {/* Interests Section */}
-            <section id="interests" className="mb-8 section-interests">
+            <section id="interests" className={`section section-interests ${activeSection === 'interests' ? 'active' : ''}`}>
               <h2 className="section-title">Interests</h2>
               <div className="card">
                 <div className="flex flex-wrap gap-4">
@@ -566,7 +576,7 @@ const App: React.FC = () => {
             </section>
 
             {/* Languages Section */}
-            <section id="languages" className="mb-8 section-languages">
+            <section id="languages" className={`section section-languages ${activeSection === 'languages' ? 'active' : ''}`}>
               <h2 className="section-title">Languages</h2>
               <div className="card">
                 <div className="flex flex-wrap gap-4">
@@ -594,6 +604,6 @@ const App: React.FC = () => {
       </Container>
     </div>
   );
-};
+}
 
 export default App;
